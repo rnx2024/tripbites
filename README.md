@@ -1,6 +1,6 @@
-# News & Weather Intelligence Frontend
+# TripBites Frontend
 
-This repository contains the **frontend application** for a location-aware AI agent that generates concise, actionable summaries by combining **live weather data**, **local news**, and **contextual risk signals**.
+This repository contains the **frontend application** for TripBites - an AI agent that generates concise, actionable summaries by combining **live weather data**, **local news**, and **contextual risk signals**.
 
 The frontend provides a modern, card-based interface where users can select a location, ask natural-language questions, and receive structured responses from a secured backend agent API.
 
@@ -22,10 +22,6 @@ It acts as a **thin client**: all intelligence, data fetching, and reasoning are
   - Loading indicators during processing
 - **Quick prompts**
   - One-click predefined questions
-- **Modern UI design**
-  - Card-style layout
-  - Rounded components
-  - Clear visual hierarchy
 
 ---
 
@@ -55,5 +51,3 @@ http://localhost:3000
 Edits to `app/page.tsx` or files under `components/` will hot-reload automatically.
 
 - The backend is responsible for fetching live weather data, fetching relevant news, and synthesizing a concise response using an AI agent.
-
-- This frontend can be deployed to any platform that supports Next.js. such as Vercel or Netlify. 
