@@ -2,6 +2,7 @@
 "use client";
 
 import { chatRequest, type ChatResponse } from "../lib/api";
+import { getErrorMessage } from "../lib/errors";
 import { useState, type KeyboardEvent } from "react";
 import MessageBubble from "./MessageBubble";
 import LoadingDots from "./LoadingDots";
@@ -49,11 +50,11 @@ export default function ChatBox() {
         sources: assistant.sources,
       };
       setMessages((m) => [...m, botMsg]);
-    } catch (e: any) {
+    } catch (error: unknown) {
       const errMsg: Msg = {
         id: crypto.randomUUID(),
         role: "assistant",
-        text: `Error contacting backend: ${e.message}`,
+        text: `Error contacting backend: ${getErrorMessage(error, "Chat request failed")}`,
       };
       setMessages((m) => [...m, errMsg]);
     } finally {

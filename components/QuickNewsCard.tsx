@@ -3,6 +3,7 @@
 
 import { useState, type FormEvent } from "react";
 import { newsRequest } from "../lib/api";
+import { getErrorMessage } from "../lib/errors";
 
 type NewsItem = {
   id: string; // ✅ added for stable React keys
@@ -40,8 +41,8 @@ export default function QuickNewsCard() {
       setItems(normalized);
       setTravelRelevance(res.travel_relevance ?? null);
       setNote(res.note ?? null);
-    } catch (err: any) {
-      setError(err?.message ?? "News request failed");
+    } catch (error: unknown) {
+      setError(getErrorMessage(error, "News request failed"));
     } finally {
       setLoading(false);
     }

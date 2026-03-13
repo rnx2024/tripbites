@@ -1,4 +1,5 @@
 // app/page.tsx
+import Image from "next/image";
 import ChatBox from "../components/ChatBox";
 import QuickWeatherCard from "../components/QuickWeatherCard";
 import QuickNewsCard from "../components/QuickNewsCard";
@@ -17,9 +18,11 @@ export default function Home() {
           
           {/* Header with logo */}
           <header className="mb-4 flex items-center gap-4">
-            <img
+            <Image
               src="/smart-news-logo.svg"
               alt="TripBites Logo"
+              width={48}
+              height={48}
               className="h-12 w-12"
             />
 

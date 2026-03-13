@@ -3,6 +3,7 @@
 
 import { useState, type FormEvent } from "react";
 import { weatherRequest } from "../lib/api";
+import { getErrorMessage } from "../lib/errors";
 
 export default function QuickWeatherCard() {
   const [place, setPlace] = useState("Vigan");
@@ -28,8 +29,8 @@ export default function QuickWeatherCard() {
       setSummary(res.summary);
       setTravelRelevance(res.travel_relevance);
       setTravelAdvice(res.travel_advice ?? []);
-    } catch (err: any) {
-      setError(err?.message ?? "Weather request failed");
+    } catch (error: unknown) {
+      setError(getErrorMessage(error, "Weather request failed"));
     } finally {
       setLoading(false);
     }
