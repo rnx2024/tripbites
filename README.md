@@ -25,6 +25,18 @@ It acts as a **thin client**: all intelligence, data fetching, and reasoning are
 
 ---
 
+## Screenshots
+
+### Main Interface
+
+![TripBites Main](https://raw.githubusercontent.com/rnx2024/tripbites/main/public/tripbites-main.png)
+
+### Chat Interface
+
+![TripBites Chat](https://raw.githubusercontent.com/rnx2024/tripbites/main/public/chatbox.png)
+
+---
+
 ## Tech Stack
 
 - **Framework:** Next.js (App Router)
