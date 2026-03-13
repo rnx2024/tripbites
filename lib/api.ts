@@ -1,4 +1,16 @@
 // lib/api.ts
+export type ChatSource = {
+  type: string;
+};
+
+export type ChatResponse = {
+  place: string;
+  final: string;
+  risk_level: string;
+  travel_advice: string[];
+  sources: ChatSource[];
+};
+
 export async function chatRequest(place: string, question: string) {
   const res = await fetch("/api/chat", {
     method: "POST",
@@ -13,7 +25,7 @@ export async function chatRequest(place: string, question: string) {
     throw new Error(`API error ${res.status}: ${text || res.statusText}`);
   }
 
-  return res.json() as Promise<{ final: string }>;
+  return res.json() as Promise<ChatResponse>;
 }
 
 export async function weatherRequest(place: string) {
@@ -26,7 +38,12 @@ export async function weatherRequest(place: string) {
     throw new Error(`API error ${res.status}: ${text || res.statusText}`);
   }
 
-  return res.json() as Promise<{ place: string; summary: string }>;
+  return res.json() as Promise<{
+    place: string;
+    summary: string;
+    travel_relevance: string;
+    travel_advice: string[];
+  }>;
 }
 
 type NewsItem = {
@@ -50,6 +67,7 @@ export async function newsRequest(place: string) {
     place: string;
     recent_count: number;
     items: NewsItem[];
+    travel_relevance?: string;
     note?: string;
   }>;
 }

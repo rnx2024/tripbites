@@ -7,6 +7,8 @@ import { weatherRequest } from "../lib/api";
 export default function QuickWeatherCard() {
   const [place, setPlace] = useState("Vigan");
   const [summary, setSummary] = useState<string | null>(null);
+  const [travelRelevance, setTravelRelevance] = useState<string | null>(null);
+  const [travelAdvice, setTravelAdvice] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,10 +20,14 @@ export default function QuickWeatherCard() {
     setLoading(true);
     setError(null);
     setSummary(null);
+    setTravelRelevance(null);
+    setTravelAdvice([]);
 
     try {
       const res = await weatherRequest(trimmed);
       setSummary(res.summary);
+      setTravelRelevance(res.travel_relevance);
+      setTravelAdvice(res.travel_advice ?? []);
     } catch (err: any) {
       setError(err?.message ?? "Weather request failed");
     } finally {
@@ -36,7 +42,7 @@ export default function QuickWeatherCard() {
           Quick Weather
         </h2>
         <p className="text-xs text-slate-500">
-          Get a short weather line for a city.
+          Get a quick weather check for transfers, outdoor plans, and day trips.
         </p>
       </div>
 
@@ -60,10 +66,20 @@ export default function QuickWeatherCard() {
       <div className="min-h-[2rem] text-xs text-slate-700">
         {error && <p className="text-red-600">{error}</p>}
         {!error && summary && (
-          <p className="whitespace-pre-line">{summary}</p>
+          <div className="space-y-2">
+            <p className="whitespace-pre-line">{summary}</p>
+            {travelRelevance && <p className="text-slate-500">{travelRelevance}</p>}
+            {travelAdvice.length > 0 && (
+              <ul className="space-y-1 text-slate-600">
+                {travelAdvice.map((item) => (
+                  <li key={item}>- {item}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         )}
         {!error && !summary && !loading && (
-          <p className="text-slate-400">No weather queried yet.</p>
+          <p className="text-slate-400">No travel weather check yet.</p>
         )}
       </div>
     </section>

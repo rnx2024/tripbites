@@ -15,6 +15,8 @@ type NewsItem = {
 export default function QuickNewsCard() {
   const [place, setPlace] = useState("Vigan");
   const [items, setItems] = useState<NewsItem[] | null>(null);
+  const [travelRelevance, setTravelRelevance] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,15 +28,18 @@ export default function QuickNewsCard() {
     setLoading(true);
     setError(null);
     setItems(null);
+    setTravelRelevance(null);
+    setNote(null);
 
     try {
       const res = await newsRequest(trimmed);
-      // ✅ add stable ids for rendering keys (no backend change needed)
       const normalized: NewsItem[] = (res.items ?? []).map((it: Omit<NewsItem, "id">) => ({
         ...it,
         id: crypto.randomUUID(),
       }));
       setItems(normalized);
+      setTravelRelevance(res.travel_relevance ?? null);
+      setNote(res.note ?? null);
     } catch (err: any) {
       setError(err?.message ?? "News request failed");
     } finally {
@@ -45,8 +50,8 @@ export default function QuickNewsCard() {
   return (
     <section className="rounded-2xl border border-slate-200 bg-sky-100 p-4 shadow-md space-y-3">
       <div>
-        <h2 className="text-sm font-semibold text-slate-800">Quick News</h2>
-        <p className="text-xs text-slate-500">Top headlines for a city or topic.</p>
+        <h2 className="text-sm font-semibold text-slate-800">Local Updates</h2>
+        <p className="text-xs text-slate-500">Recent developments that may affect travelers.</p>
       </div>
 
       <form onSubmit={onSubmit} className="flex gap-2">
@@ -70,22 +75,26 @@ export default function QuickNewsCard() {
         {error && <p className="text-red-600">{error}</p>}
 
         {!error && items && items.length > 0 && (
-          <ul className="space-y-1">
-            {items.slice(0, 3).map((item) => (
-              <li key={item.id} className="leading-snug">
-                <span className="font-medium">{item.title}</span>
-                {item.source && <span className="text-slate-500"> · {item.source}</span>}
-                {item.date && <span className="text-slate-400"> · {item.date}</span>}
-              </li>
-            ))}
-          </ul>
+          <div className="space-y-2">
+            <ul className="space-y-1">
+              {items.slice(0, 3).map((item) => (
+                <li key={item.id} className="leading-snug">
+                  <span className="font-medium">{item.title}</span>
+                  {item.source && <span className="text-slate-500"> · {item.source}</span>}
+                  {item.date && <span className="text-slate-400"> · {item.date}</span>}
+                </li>
+              ))}
+            </ul>
+            {travelRelevance && <p className="text-slate-500">{travelRelevance}</p>}
+            {note && <p className="text-slate-400">{note}</p>}
+          </div>
         )}
 
         {!error && items?.length === 0 && !loading && (
-          <p className="text-slate-400">No recent headlines found.</p>
+          <p className="text-slate-400">No recent local updates found.</p>
         )}
 
-        {!error && !items && !loading && <p className="text-slate-400">No news queried yet.</p>}
+        {!error && !items && !loading && <p className="text-slate-400">No local updates queried yet.</p>}
       </div>
     </section>
   );
