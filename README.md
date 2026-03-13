@@ -31,6 +31,16 @@ The backend handles:
 - Use preset cities and one-click prompts
 - Clean card-based UI built with Next.js and Tailwind CSS
 
+## Screenshots
+
+### Main Interface
+
+![TripBites Main](https://raw.githubusercontent.com/rnx2024/tripbites/main/public/tripbites-main.png)
+
+### Chat Interface
+
+![TripBites Chat](https://raw.githubusercontent.com/rnx2024/tripbites/main/public/chatbox.png)
+
 ## Tech stack
 
 - Next.js (App Router)
@@ -40,10 +50,10 @@ The backend handles:
 
 ## Project structure
 
-- `app/` - routes, layout, page entry, API proxy routes
-- `components/` - UI components such as chat and quick summary cards
-- `lib/` - frontend request helpers
-- `public/` - static assets
+- `app/` — routes, layout, page entry, API proxy routes
+- `components/` — UI components such as chat and quick summary cards
+- `lib/` — frontend request helpers
+- `public/` — static assets
 
 ## API flow
 
@@ -64,4 +74,3 @@ Create a `.env.local` file:
 BACKEND_URL=http://localhost:8000
 EXTERNAL_API_KEY=your_backend_api_key
 BACKEND_TIMEOUT_MS=15000
-```
