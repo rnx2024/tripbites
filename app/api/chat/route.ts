@@ -24,8 +24,8 @@ export async function POST(req: Request) {
   // ---- read session from request cookies (await cookies())
   const jar = await cookies();
   let session: Session | null = null;
-  const sid = jar.get("sn_sid")?.value;
-  const stk = jar.get("sn_stk")?.value;
+  const sid = jar.get("tb_sid")?.value ?? jar.get("sn_sid")?.value;
+  const stk = jar.get("tb_stk")?.value ?? jar.get("sn_stk")?.value;
   if (sid && stk) {
     session = { session_id: sid, session_token: stk };
   }
@@ -68,13 +68,13 @@ export async function POST(req: Request) {
 
   // ---- write cookies on the outgoing response
   if (setSessionOnResponse) {
-    resp.cookies.set("sn_sid", setSessionOnResponse.session_id, {
+    resp.cookies.set("tb_sid", setSessionOnResponse.session_id, {
       httpOnly: true,
       sameSite: "strict",
       secure: true,
       path: "/",
     });
-    resp.cookies.set("sn_stk", setSessionOnResponse.session_token, {
+    resp.cookies.set("tb_stk", setSessionOnResponse.session_token, {
       httpOnly: true,
       sameSite: "strict",
       secure: true,

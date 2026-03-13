@@ -1,4 +1,5 @@
 // app/page.tsx
+import Image from "next/image";
 import ChatBox from "../components/ChatBox";
 import QuickWeatherCard from "../components/QuickWeatherCard";
 import QuickNewsCard from "../components/QuickNewsCard";
@@ -9,7 +10,7 @@ export default function Home() {
       <div className="mx-auto max-w-4xl">
         <div className="mb-6 flex justify-center">
           <span className="inline-flex items-center rounded-full bg-blue-100/90 px-3 py-1 text-xs font-medium text-slate-500 shadow-sm ring-1 ring-slate-200">
-            City insights · Weather · News · Risk signals
+            Travel intelligence · Weather · Local updates · Risk signals
           </span>
         </div>
 
@@ -17,9 +18,11 @@ export default function Home() {
           
           {/* Header with logo */}
           <header className="mb-4 flex items-center gap-4">
-            <img
+            <Image
               src="/smart-news-logo.svg"
               alt="TripBites Logo"
+              width={48}
+              height={48}
               className="h-12 w-12"
             />
 
@@ -34,7 +37,7 @@ export default function Home() {
                 className="text-base font-medium leading-relaxed"
                 style={{ color: "#2a4157ff" }}
               >
-                Ask about any city. Smart News, Smart Insights.
+                Fast destination briefs for weather, disruptions, and practical travel decisions.
               </p>
             </div>
           </header>

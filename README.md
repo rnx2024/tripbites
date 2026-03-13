@@ -1,65 +1,67 @@
 # TripBites Frontend
 
-This repository contains the **frontend application** for TripBites - an AI agent that generates concise, actionable summaries by combining **live weather data**, **local news**, and **contextual risk signals**.
+TripBites is a Next.js frontend for a travel intelligence app that helps users get fast, practical city insights before or during a trip.
 
-The frontend provides a modern, card-based interface where users can select a location, ask natural-language questions, and receive structured responses from a secured backend agent API.
+The app lets users ask about a city and receive a concise response based on live weather conditions, recent local headlines, and risk-related context from the backend service.
 
----
+## What it does
 
-## Overview
+TripBites is designed as a thin client.
 
-The application is built with **Next.js (App Router)** and **React**, styled using **Tailwind CSS** with a clean, minimal, and modern UI.  
-It acts as a **thin client**: all intelligence, data fetching, and reasoning are handled by the backend.
+The frontend handles:
+- user input
+- chat interface
+- quick prompts
+- lightweight city lookup flow
+- display of weather and local update summaries
 
----
+The backend handles:
+- weather retrieval
+- news retrieval
+- session handling
+- AI-generated travel summaries
+- risk and disruption interpretation
 
-## Key Features
+## Main features
 
-- **Location-based querying**
-  - Preset city buttons and free-text location input
-- **Conversational interface**
-  - User/agent message bubbles
-  - Loading indicators during processing
-- **Quick prompts**
-  - One-click predefined questions
+- Ask about any city or place
+- Get a travel-oriented summary in natural language
+- View a quick weather summary
+- View recent local headlines
+- Use preset cities and one-click prompts
+- Clean card-based UI built with Next.js and Tailwind CSS
 
----
+## Tech stack
 
-## Screenshots
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
 
-### Main Interface
+## Project structure
 
-![TripBites Main](https://raw.githubusercontent.com/rnx2024/tripbites/main/public/tripbites-main.png)
+- `app/` - routes, layout, page entry, API proxy routes
+- `components/` - UI components such as chat and quick summary cards
+- `lib/` - frontend request helpers
+- `public/` - static assets
 
-### Chat Interface
+## API flow
 
-![TripBites Chat](https://raw.githubusercontent.com/rnx2024/tripbites/main/public/chatbox.png)
+The frontend does not call third-party services directly.
 
----
+It sends requests to internal Next.js API routes:
+- `POST /api/chat`
+- `GET /api/weather?place=...`
+- `GET /api/news?place=...`
 
-## Tech Stack
+Those routes forward requests to the backend service using secure server-side environment variables.
 
-- **Framework:** Next.js (App Router)
-- **UI Library:** React
-- **Styling:** Tailwind CSS
-- **Language:** TypeScript
-- **State Management:** React hooks
+## Required environment variables
 
----
+Create a `.env.local` file:
 
-## Getting Started (Local Development)
-
-1. Install dependencies
-
-2. Start the development server:
-
-npm run dev  
-
-Open the application:
-``
-http://localhost:3000  
+```env
+BACKEND_URL=http://localhost:8000
+EXTERNAL_API_KEY=your_backend_api_key
+BACKEND_TIMEOUT_MS=15000
 ```
-
-Edits to `app/page.tsx` or files under `components/` will hot-reload automatically.
-
-- The backend is responsible for fetching live weather data, fetching relevant news, and synthesizing a concise response using an AI agent.

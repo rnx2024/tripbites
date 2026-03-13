@@ -1,19 +1,27 @@
 // components/ChatBox.tsx
 "use client";
 
-import { chatRequest } from "../lib/api";
+import { chatRequest, type ChatResponse } from "../lib/api";
+import { getErrorMessage } from "../lib/errors";
 import { useState, type KeyboardEvent } from "react";
 import MessageBubble from "./MessageBubble";
 import LoadingDots from "./LoadingDots";
 
-type Msg = { id: string; role: "user" | "assistant"; text: string };
+type Msg = {
+  id: string;
+  role: "user" | "assistant";
+  text: string;
+  riskLevel?: string;
+  travelAdvice?: string[];
+  sources?: { type: string }[];
+};
 
 const PRESET_PLACES = ["Vigan", "Laoag", "Manila", "Cebu", "Davao"];
 const PRESET_QUESTIONS = [
-  "What should I expect for the rest of today?",
-  "Is it safe to go out this evening?",
-  "Give me a short summary of weather and news.",
-  "Any major risks or disruptions I should know?",
+  "Give me a travel brief for today.",
+  "Any major disruptions or closures I should know about?",
+  "What weather could affect getting around later?",
+  "What practical travel advice should I keep in mind?",
 ];
 
 export default function ChatBox() {
@@ -31,19 +39,22 @@ export default function ChatBox() {
     setLoading(true);
 
     try {
-      // updated: no debug arg, matches backend { place, question }
       const res = await chatRequest(place, q);
+      const assistant = formatAssistantMessage(res);
       const botMsg: Msg = {
         id: crypto.randomUUID(),
         role: "assistant",
-        text: res.final || "(no response from agent)",
+        text: assistant.text,
+        riskLevel: assistant.riskLevel,
+        travelAdvice: assistant.travelAdvice,
+        sources: assistant.sources,
       };
       setMessages((m) => [...m, botMsg]);
-    } catch (e: any) {
+    } catch (error: unknown) {
       const errMsg: Msg = {
         id: crypto.randomUUID(),
         role: "assistant",
-        text: `Error contacting backend: ${e.message}`,
+        text: `Error contacting backend: ${getErrorMessage(error, "Chat request failed")}`,
       };
       setMessages((m) => [...m, errMsg]);
     } finally {
@@ -75,7 +86,7 @@ export default function ChatBox() {
             </label>
 
             <p className="text-xs text-slate-500">
-              Choose a city or type your own.
+              Choose a destination or type your own.
             </p>
           </div>
           <div className="mt-2 flex flex-wrap gap-2 md:mt-0">
@@ -112,11 +123,18 @@ export default function ChatBox() {
       <section className="rounded-2xl border border-slate-300 bg-blue-50 p-5 shadow-inner ring-1 ring-slate-200 h-80 overflow-y-auto space-y-3">
         {messages.length === 0 && (
           <p className="text-sm text-slate-500">
-            Ask about weather, safety, or recent news for the selected location.
+            Ask for a travel brief, likely disruptions, weather impact, or practical advice for the selected location.
           </p>
         )}
         {messages.map((m) => (
-          <MessageBubble key={m.id} role={m.role} text={m.text} />
+          <MessageBubble
+            key={m.id}
+            role={m.role}
+            text={m.text}
+            riskLevel={m.riskLevel}
+            travelAdvice={m.travelAdvice}
+            sources={m.sources}
+          />
         ))}
         {loading && (
           <div className="flex justify-start pt-1">
@@ -165,4 +183,13 @@ export default function ChatBox() {
       </section>
     </div>
   );
+}
+
+function formatAssistantMessage(response: ChatResponse) {
+  return {
+    text: response.final || "(no response from backend)",
+    riskLevel: response.risk_level,
+    travelAdvice: response.travel_advice ?? [],
+    sources: response.sources ?? [],
+  };
 }
