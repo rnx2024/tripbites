@@ -3,8 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "TripBites - Travel Intelligence for City Briefs",
-  description: "TripBites helps travelers get fast local briefings based on weather, recent developments, and disruption-aware backend analysis.",
+  title: "TripBites | Destination Intelligence",
+  description: "TripBites provides destination briefings grounded in weather conditions, local developments, and practical travel impact.",
   icons: {
     icon: "/smart-news-logo.svg",
   },

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #7d6b94;
-  --foreground: #171717;
+  --background: #eef5fb;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -14,13 +14,56 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #7d6b94;
-    --foreground: #ededed;
+    --background: #eef5fb;
+    --foreground: #0f172a;
   }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Geneva, Verdana, sans-serif;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus {
+  outline: none;
 }

@@ -51,13 +51,18 @@ export default function QuickNewsCard() {
   return (
     <section className="rounded-2xl border border-slate-200 bg-sky-100 p-4 shadow-md space-y-3">
       <div>
-        <h2 className="text-sm font-semibold text-slate-800">Local Updates</h2>
-        <p className="text-xs text-slate-500">Recent developments that may affect travelers.</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-700">Local Developments</p>
+        <h2 className="mt-1 text-[1.05rem] font-medium leading-6 tracking-tight text-slate-900">
+          Recent reporting relevant to travel conditions
+        </h2>
+        <p className="mt-1 text-[0.95rem] leading-6 text-slate-600">
+          Surface recent developments that may affect transit, access, or local plans.
+        </p>
       </div>
 
       <form onSubmit={onSubmit} className="flex gap-2">
         <input
-          className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs placeholder-slate-400 focus:border-[#3399FF] focus:outline-none focus:ring-2 focus:ring-[#3399FF]/30"
+          className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm font-normal text-slate-800 placeholder-slate-400 focus:border-[#3399FF] focus:outline-none focus:ring-2 focus:ring-[#3399FF]/30"
           value={place}
           onChange={(e) => setPlace(e.target.value)}
           placeholder="e.g. Vigan"
@@ -65,14 +70,14 @@ export default function QuickNewsCard() {
         <button
           type="submit"
           disabled={loading || !place.trim()}
-          className="inline-flex items-center justify-center rounded-md px-3 py-2 text-xs font-semibold text-white shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center justify-center rounded-md px-3 py-2.5 text-sm font-semibold text-white shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ backgroundColor: "#5ba5efff" }}
         >
           {loading ? "..." : "Fetch"}
         </button>
       </form>
 
-      <div className="min-h-[3rem] space-y-1 text-xs text-slate-700">
+      <div className="min-h-[3rem] space-y-1 text-sm leading-6 text-slate-700">
         {error && <p className="text-red-600">{error}</p>}
 
         {!error && items && items.length > 0 && (
@@ -80,22 +85,24 @@ export default function QuickNewsCard() {
             <ul className="space-y-1">
               {items.slice(0, 3).map((item) => (
                 <li key={item.id} className="leading-snug">
-                  <span className="font-medium">{item.title}</span>
+                  <span className="font-medium text-slate-800">{item.title}</span>
                   {item.source && <span className="text-slate-500"> · {item.source}</span>}
                   {item.date && <span className="text-slate-400"> · {item.date}</span>}
                 </li>
               ))}
             </ul>
-            {travelRelevance && <p className="text-slate-500">{travelRelevance}</p>}
-            {note && <p className="text-slate-400">{note}</p>}
+            {travelRelevance && <p className="text-[0.95rem] leading-6 text-slate-500">{travelRelevance}</p>}
+            {note && <p className="text-[0.95rem] leading-6 text-slate-400">{note}</p>}
           </div>
         )}
 
         {!error && items?.length === 0 && !loading && (
-          <p className="text-slate-400">No recent local updates found.</p>
+          <p className="text-[0.95rem] leading-6 text-slate-400">No recent local developments were returned.</p>
         )}
 
-        {!error && !items && !loading && <p className="text-slate-400">No local updates queried yet.</p>}
+        {!error && !items && !loading && (
+          <p className="text-[0.95rem] leading-6 text-slate-400">No local developments requested yet.</p>
+        )}
       </div>
     </section>
   );
