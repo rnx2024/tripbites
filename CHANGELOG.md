@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/rnx2024/tripbites/compare/v0.3.1...v0.4.0) (2026-09-12)
+
+
+### Features
+
+* **frontend:** enrich chat responses with travel context and follow-ups ([a21c4b9](https://github.com/rnx2024/tripbites/commit/a21c4b98a48c20bb2635182bc06c62d635ec4789))
+* **frontend:** enrich chat responses with travel context and follow-ups ([ac71fa8](https://github.com/rnx2024/tripbites/commit/ac71fa800147b357bf3c8b1a3b2e91c8a2a1631e))
+
 ## [0.3.1](https://github.com/rnx2024/tripbites/compare/v0.3.0...v0.3.1) (2026-09-05)
 
 
