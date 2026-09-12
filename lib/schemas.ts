@@ -45,6 +45,18 @@ const nullableToOptional = <T extends z.ZodTypeAny>(schema: T) =>
 export const RiskLevelSchema = z.enum(["low", "medium", "high"]);
 export type RiskLevel = z.infer<typeof RiskLevelSchema>;
 
+export const AnswerModeSchema = z.enum([
+  "journey_planning",
+  "destination_brief",
+]);
+export type AnswerMode = z.infer<typeof AnswerModeSchema>;
+
+export const JourneyContextSchema = z.object({
+  origin: z.string().optional(),
+  destination: z.string().optional(),
+});
+export type JourneyContext = z.infer<typeof JourneyContextSchema>;
+
 export const ChatSourceSchema = z.object({
   type: z.enum(["weather", "news"]),
 });
@@ -53,11 +65,21 @@ export type ChatSource = z.infer<typeof ChatSourceSchema>;
 export const ChatResponseSchema = z.object({
   place: z.string(),
   final: z.string(),
+  answer_mode: AnswerModeSchema.nullable().optional(),
+  journey_context: JourneyContextSchema.nullable().optional(),
+  suggested_questions: z.array(z.string()).optional(),
   risk_level: nullableToOptional(RiskLevelSchema),
   travel_advice: z.array(z.string()),
   sources: z.array(ChatSourceSchema),
 });
-export type ChatResponse = z.infer<typeof ChatResponseSchema>;
+type ParsedChatResponse = z.infer<typeof ChatResponseSchema>;
+export type ChatResponse = Omit<
+  ParsedChatResponse,
+  "answer_mode" | "journey_context"
+> & {
+  answer_mode?: AnswerMode | null;
+  journey_context?: JourneyContext | null;
+};
 
 export const WeatherResponseSchema = z.object({
   place: z.string(),

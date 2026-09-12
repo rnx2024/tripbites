@@ -107,4 +107,38 @@ describe("ChatBox", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
   });
+
+  it("renders backend metadata and submits a suggested follow-up", async () => {
+    vi.mocked(chatRequest).mockResolvedValueOnce({
+      place: "Vigan",
+      final: "Plan your route.",
+      answer_mode: "journey_planning",
+      journey_context: { origin: "Paris", destination: "Barcelona" },
+      suggested_questions: ["Ask about weather"],
+      risk_level: "low",
+      travel_advice: [],
+      sources: [],
+    });
+    vi.mocked(chatRequest).mockResolvedValueOnce({
+      place: "Vigan",
+      final: "Weather is clear.",
+      risk_level: "low",
+      travel_advice: [],
+      sources: [],
+    });
+
+    const user = userEvent.setup();
+    render(<ChatBox />);
+    const input = screen.getByPlaceholderText(
+      "Enter a travel question for this destination"
+    );
+    await user.type(input, "Plan a route");
+    await user.click(screen.getByRole("button", { name: "Send" }));
+
+    expect(await screen.findByText("Journey Assessment")).toBeInTheDocument();
+    expect(screen.getByText("Paris")).toBeInTheDocument();
+    expect(screen.getByText("Barcelona")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Ask about weather" }));
+    expect(chatRequest).toHaveBeenLastCalledWith("Vigan", "Ask about weather");
+  });
 });

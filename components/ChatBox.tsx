@@ -8,7 +8,9 @@ import {
   ChatRequestSchema,
   MAX_PLACE_LENGTH,
   MAX_QUESTION_LENGTH,
+  type AnswerMode,
   type ChatSource,
+  type JourneyContext,
   type RiskLevel,
   type ChatResponse,
 } from "../lib/schemas";
@@ -23,6 +25,9 @@ type Msg = {
   riskLevel?: RiskLevel;
   travelAdvice?: string[];
   sources?: ChatSource[];
+  answerMode?: AnswerMode;
+  journeyContext?: JourneyContext;
+  suggestedQuestions?: string[];
 };
 
 const PRESET_PLACES = ["Vigan", "Laoag", "Manila", "Cebu", "Davao"];
@@ -79,6 +84,9 @@ export default function ChatBox() {
         riskLevel: assistant.riskLevel,
         travelAdvice: assistant.travelAdvice,
         sources: assistant.sources,
+        answerMode: assistant.answerMode,
+        journeyContext: assistant.journeyContext,
+        suggestedQuestions: assistant.suggestedQuestions,
       };
       setMessages((m) => [...m, botMsg]);
       setFailedRequest(null);
@@ -182,6 +190,13 @@ export default function ChatBox() {
             riskLevel={m.riskLevel}
             travelAdvice={m.travelAdvice}
             sources={m.sources}
+            answerMode={m.answerMode}
+            journeyContext={m.journeyContext}
+            suggestedQuestions={m.suggestedQuestions}
+            onSuggestedQuestion={
+              m.role === "assistant" ? (q) => void send(q) : undefined
+            }
+            suggestionsDisabled={loading}
           />
         ))}
         {loading && (
@@ -284,5 +299,8 @@ function formatAssistantMessage(response: ChatResponse) {
     riskLevel: response.risk_level,
     travelAdvice: response.travel_advice ?? [],
     sources: response.sources ?? [],
+    answerMode: response.answer_mode ?? undefined,
+    journeyContext: response.journey_context ?? undefined,
+    suggestedQuestions: response.suggested_questions ?? [],
   };
 }
