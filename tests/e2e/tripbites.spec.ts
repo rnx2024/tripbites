@@ -56,7 +56,9 @@ test("frontend loads with the priority travel workflows", async ({ page }) => {
   await expect(page.getByText("Suggested Questions")).toBeVisible();
 });
 
-test("news and weather workflows display successful responses", async ({ page }) => {
+test("news and weather workflows display successful responses", async ({
+  page,
+}) => {
   await mockFrontendApi(page);
   await page.goto("/");
 
@@ -74,7 +76,9 @@ test("news and weather workflows display successful responses", async ({ page })
   await expect(newsCard.getByText("Local travel update")).toBeVisible();
 });
 
-test("chat workflow displays the answer and travel advice", async ({ page }) => {
+test("chat workflow displays the answer and travel advice", async ({
+  page,
+}) => {
   await mockFrontendApi(page);
   await page.goto("/");
 
@@ -84,7 +88,9 @@ test("chat workflow displays the answer and travel advice", async ({ page }) => 
   await page.getByRole("button", { name: "Send" }).click();
 
   await expect(page.getByText(chatResponse.final)).toBeVisible();
-  await expect(page.getByText("Check local updates before departure")).toBeVisible();
+  await expect(
+    page.getByText("Check local updates before departure")
+  ).toBeVisible();
 });
 
 test("chat prevents sending an empty question", async ({ page }) => {
@@ -103,7 +109,9 @@ test("news failure displays an error and retry action", async ({ page }) => {
   });
   await page.goto("/");
 
-  const newsCard = page.locator("section").filter({ hasText: "Local Developments" });
+  const newsCard = page
+    .locator("section")
+    .filter({ hasText: "Local Developments" });
   await newsCard.getByRole("button", { name: "Fetch" }).click();
 
   await expect(newsCard.getByText("News request failed")).toBeVisible();
