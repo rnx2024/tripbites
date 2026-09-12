@@ -1,5 +1,13 @@
 // components/MessageBubble.tsx
-import type { ChatSource, RiskLevel } from "../lib/schemas";
+import type {
+  AnswerMode,
+  ChatSource,
+  JourneyContext,
+  RiskLevel,
+} from "../lib/schemas";
+import AnswerModeBadge from "./AnswerModeBadge";
+import FollowUpSuggestions from "./FollowUpSuggestions";
+import JourneyContextPanel from "./JourneyContextPanel";
 import ResponseBadges from "./ResponseBadges";
 
 type Props = {
@@ -8,6 +16,11 @@ type Props = {
   riskLevel?: RiskLevel;
   travelAdvice?: string[];
   sources?: ChatSource[];
+  answerMode?: AnswerMode;
+  journeyContext?: JourneyContext;
+  suggestedQuestions?: string[];
+  onSuggestedQuestion?: (question: string) => void;
+  suggestionsDisabled?: boolean;
 };
 
 type LinkMatch = {
@@ -29,6 +42,11 @@ export default function MessageBubble({
   riskLevel,
   travelAdvice,
   sources,
+  answerMode,
+  journeyContext,
+  suggestedQuestions,
+  onSuggestedQuestion,
+  suggestionsDisabled,
 }: Readonly<Props>) {
   const isUser = role === "user";
 
@@ -43,13 +61,26 @@ export default function MessageBubble({
         style={isUser ? { backgroundColor: "#0066CC" } : undefined}
       >
         <div className="space-y-2">{renderMessageText(text, isUser)}</div>
-        {!isUser && <ResponseBadges riskLevel={riskLevel} sources={sources} />}
+        {!isUser && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            <AnswerModeBadge answerMode={answerMode} />
+            <ResponseBadges riskLevel={riskLevel} sources={sources} />
+          </div>
+        )}
+        {!isUser && <JourneyContextPanel context={journeyContext} />}
         {!isUser && travelAdvice && travelAdvice.length > 0 && (
           <ul className="mt-2 space-y-1 text-xs text-slate-600">
             {travelAdvice.map((item) => (
               <li key={item}>- {item}</li>
             ))}
           </ul>
+        )}
+        {!isUser && onSuggestedQuestion && (
+          <FollowUpSuggestions
+            questions={suggestedQuestions}
+            onSelect={onSuggestedQuestion}
+            disabled={suggestionsDisabled}
+          />
         )}
       </div>
     </div>

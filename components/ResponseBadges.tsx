@@ -43,7 +43,7 @@ export default function ResponseBadges({
   if (!riskLevel && !hasSources) return null;
 
   return (
-    <div className="mt-3 flex flex-wrap gap-2" aria-label="Response details">
+    <div className="flex flex-wrap gap-2" aria-label="Response details">
       {riskLevel && <RiskBadge riskLevel={riskLevel} />}
       {sources?.map((source) => (
         <SourceBadge key={source.type} sourceType={source.type} />
