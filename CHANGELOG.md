@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.1](https://github.com/rnx2024/tripbites/compare/v0.4.0...v0.4.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **chat:** improve source link display ([8c5ca5b](https://github.com/rnx2024/tripbites/commit/8c5ca5b8b047bd206828db0d477dfa93f0d49578))
+* **chat:** improve source link display ([f309808](https://github.com/rnx2024/tripbites/commit/f3098086a3f1e03fa5f2861a9d62d69a09e7a455))
+* **chat:** restore clickable news source links ([4a25839](https://github.com/rnx2024/tripbites/commit/4a25839a43485ead3c102f896bfe6a204b27e5b7))
+* **chat:** restore clickable news source links ([34dd831](https://github.com/rnx2024/tripbites/commit/34dd831a5151dcb4d78ae372ea3f1853ad44b046))
+
 ## [0.4.0](https://github.com/rnx2024/tripbites/compare/v0.3.1...v0.4.0) (2026-09-12)
 
 
