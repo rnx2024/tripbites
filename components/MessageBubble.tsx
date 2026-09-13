@@ -288,7 +288,7 @@ function compactLinkLabel(label: string, href: string) {
 function linkClassName(isUser: boolean) {
   return isUser
     ? "underline underline-offset-2 text-white"
-    : "underline underline-offset-2 text-sky-700";
+    : "font-semibold text-blue-600 hover:text-blue-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600";
 }
 
 function parseMarkdownLink(text: string, start: number) {
