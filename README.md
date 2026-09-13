@@ -40,6 +40,14 @@ not use an in-memory limiter because the recommended Vercel deployment can run
 API routes on separate serverless instances; a local limiter would not provide
 a reliable global limit.
 
+## How It Fits Together
+
+The browser talks only to the Next.js API routes. Next.js keeps the backend URL
+and API key server-side, validates requests, normalizes upstream errors, and
+forwards authorized requests to the backend. The backend owns session state in
+Redis and runs the LangGraph-based travel briefing agent; the frontend stores
+only the resulting opaque session values in HttpOnly cookies.
+
 ## Environment variables
 
 All required variables are server-side only (used by `app/api/*`).
@@ -62,6 +70,8 @@ See `.env.example` for the full list.
 - `npm run dev` — local dev server
 - `npm run lint` — ESLint
 - `npm run typecheck` — TypeScript typecheck
+- `npm test` — unit tests
+- `npm run test:e2e` — Playwright end-to-end tests
 - `npm run build` — production build
 - `npm run start` — run production server
 
