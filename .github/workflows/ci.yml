@@ -2,9 +2,23 @@ name: ci
 
 on:
   pull_request:
+    paths:
+      - "**"
+      - "!README.md"
+      - "!docs/**"
+      - "!**/*.md"
+      - "!**/*.mdx"
+      - "CHANGELOG.md"
   push:
     branches:
       - main
+    paths:
+      - "**"
+      - "!README.md"
+      - "!docs/**"
+      - "!**/*.md"
+      - "!**/*.mdx"
+      - "CHANGELOG.md"
 
 jobs:
   build:
