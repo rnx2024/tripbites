@@ -3,6 +3,20 @@ import { describe, expect, it } from "vitest";
 import MessageBubble from "./MessageBubble";
 
 describe("MessageBubble", () => {
+  it("shows a Source label while preserving the news link destination", () => {
+    const link = "https://example.com/news-story";
+
+    render(<MessageBubble role="assistant" text={`[Source](${link})`} />);
+
+    const sourceLink = screen.getByRole("link", {
+      name: `Open source link: ${link}`,
+    });
+    expect(sourceLink).toHaveTextContent("Source");
+    expect(sourceLink).toHaveAttribute("href", link);
+    expect(sourceLink).toHaveAttribute("target", "_blank");
+    expect(sourceLink).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
   it("uses a compact visible label for long source URLs while preserving the destination", () => {
     const link =
       "https://www.facebook.com/singsonrandy/posts/very-long-encoded-source-path";
