@@ -15,6 +15,8 @@ describe("MessageBubble", () => {
     expect(sourceLink).toHaveAttribute("href", link);
     expect(sourceLink).toHaveAttribute("target", "_blank");
     expect(sourceLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(sourceLink).toHaveClass("text-blue-600", "font-semibold");
+    expect(sourceLink).not.toHaveClass("underline");
   });
 
   it("uses a compact visible label for long source URLs while preserving the destination", () => {
